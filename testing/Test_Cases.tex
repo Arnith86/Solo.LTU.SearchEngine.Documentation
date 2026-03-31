@@ -1075,6 +1075,47 @@ visually distinguished (highlighted) using standard HTML tags (e.g., \texttt{<ma
   \item \textbf{Expected Value:} \texttt{... fast results for students.}
   \item \textbf{Sanitization:} The rest of the snippet is correctly encoded to prevent XSS, while the highlighting tags are preserved.
 \end{itemize}
+
+% ==========================================================
+% ==========================================================
+\section{Test Case: TC-FRQ-3015}
+\subsection*{Related Requirements}
+FRQ-3015
+
+\subsection*{Description}
+Verify that the search engine correctly ranks results using a multi-factor scoring system. 
+The primary ranking factor is the \textbf{TF/IDF score} (relevance of terms). In cases where 
+documents have identical TF/IDF scores, the \textbf{PageRank score} (authority of the page) must be 
+used as the tie-breaker to determine the final order.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The index contains at least three documents:
+  \begin{itemize}
+    \item \textbf{Doc A:} High frequency of query terms ("cat dog"), Low PageRank.
+    \item \textbf{Doc B:} Medium frequency of query terms, High PageRank.
+    \item \textbf{Doc C:} Low frequency (only "cat"), High PageRank.
+  \end{itemize}
+  \item PageRank scores are pre-calculated and stored in the \texttt{Pages} table.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item \textbf{Search Execution:} Execute a search query for the multi-term query "cat dog".
+  \item \textbf{Intercept Results:} Capture the ordered list of document IDs returned by the search engine.
+  \item \textbf{Verify TF/IDF Primacy:} Compare the position of Doc A (high TF/IDF) against Doc B (medium TF/IDF).
+  \item \textbf{Verify Tie-breaking:} Identify two documents with identical TF/IDF scores and compare their positions based on PageRank.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item \textbf{TF/IDF Priority:} Documents with both search terms and higher term frequency appear first (Doc A 
+  Doc B).
+  \item \textbf{PageRank Tie-break:} If two documents have identical relevance scores, the one with the higher PageRank value is ranked higher.
+  \item \textbf{Relevance Threshold:} Doc C (only containing "cat") appears last, as its total TF/IDF score for the full query is lowest.
+  \item \textbf{Order of Precedence:} Result set order matches: \texttt{Doc A -> Doc B -> Doc C}.
+\end{itemize}
+
 % ==========================================================
 
 
