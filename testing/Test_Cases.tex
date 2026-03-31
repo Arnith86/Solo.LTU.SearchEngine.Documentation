@@ -1009,7 +1009,40 @@ when a search query yields more than 10 results, the system divides the output i
   \item \textbf{Exclusivity:} There is zero overlap between the results of page 1 and page 2.
   \item \textbf{Metadata:} The response object contains pagination metadata (e.g., \textit{TotalResults: 15}, \textit{CurrentPage: 1}, \textit{TotalPages: 2}).
 \end{itemize}
+
 % ==========================================================
+% ==========================================================
+\section{Test Case: TC-FRQ-3013}
+\subsection*{Related Requirements}
+FRQ-3013
+
+\subsection*{Description}
+Verify that each search result returned by the query engine includes the relevant headline 
+(title or primary header) of the source document where the match was found. This ensures that the user 
+receives enough context to identify the page before clicking the link.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The search index is populated with a document having a known title (e.g., "Student Services at LTU") and body content.
+  \item The search service is isolated for testing, or an integration test is set up against a mock database.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item \textbf{Search Execution:} Execute a search query for a term known to exist in the body content of the target document (e.g., "scholarships").
+  \item \textbf{Intercept Result:} Capture the list of search result objects returned by the \textit{SearchService} or API.
+  \item \textbf{Inspect Metadata:} Examine the properties of the first result item in the list.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item \textbf{Presence:} The result object contains a \texttt{Headline} or \texttt{Title} field.
+  \item \textbf{Accuracy:} The content of the headline field exactly matches the title stored in the database for that document.
+  \item \textbf{Expected Value:} The result for the query "scholarships" displays the headline: \texttt{"Student Services at LTU"}.
+  \item \textbf{Completeness:} Every result in the returned set (up to the pagination limit) includes its respective headline.
+\end{itemize}
+% ==========================================================
+
 
 \section{Test Case: TC-NFRQ-6006}
 
