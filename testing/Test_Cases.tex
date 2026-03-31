@@ -977,6 +977,40 @@ to ensure that when these characters are preceded by a backslash, they are inter
 
 % ==========================================================
 
+% ==========================================================
+\section{Test Case: TC-FRQ-3012}
+\subsection*{Related Requirements}
+FRQ-3012
+
+\subsection*{Description}
+Verify that the search engine correctly implements pagination for query results. The test ensures that 
+when a search query yields more than 10 results, the system divides the output into pages, returning only 
+10 results per request and providing a mechanism to access subsequent pages.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The search service is connected to a mock database or an in-memory index.
+  \item The index is populated with at least 15 distinct documents that all match a specific test term (e.g., "LTU").
+  \item The API or search controller is accessible for unit or integration testing.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item \textbf{Initial Request:} Execute a search query for the term "LTU" without specifying a page index (defaulting to page 1).
+  \item \textbf{Inspect Count:} Count the number of document references returned in the first result set.
+  \item \textbf{Second Request:} Execute the same search query but specify the second page (e.g., \texttt{page=2} or \texttt{offset=10}).
+  \item \textbf{Inspect Continuity:} Compare the results from page 1 and page 2 to ensure no duplicate documents exist between the pages.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item \textbf{Page 1 Limit:} The first request returns exactly 10 results, even though 15 matches exist in total.
+  \item \textbf{Page 2 Remainder:} The second request returns the remaining 5 results.
+  \item \textbf{Exclusivity:} There is zero overlap between the results of page 1 and page 2.
+  \item \textbf{Metadata:} The response object contains pagination metadata (e.g., \textit{TotalResults: 15}, \textit{CurrentPage: 1}, \textit{TotalPages: 2}).
+\end{itemize}
+% ==========================================================
+
 \section{Test Case: TC-NFRQ-6006}
 
 \subsection*{Related Requirements}
