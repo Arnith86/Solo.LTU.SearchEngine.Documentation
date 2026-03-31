@@ -1041,6 +1041,40 @@ receives enough context to identify the page before clicking the link.
   \item \textbf{Expected Value:} The result for the query "scholarships" displays the headline: \texttt{"Student Services at LTU"}.
   \item \textbf{Completeness:} Every result in the returned set (up to the pagination limit) includes its respective headline.
 \end{itemize}
+
+% ==========================================================
+% ==========================================================
+\section{Test Case: TC-FRQ-3014}
+\subsection*{Related Requirements}
+FRQ-3014 (Snippet Generation and Highlighting)
+
+\subsection*{Description}
+Verify that search results include a contextual snippet of the page content where the search 
+terms are found. The test also ensures that all occurrences of the search keywords within this snippet are 
+visually distinguished (highlighted) using standard HTML tags (e.g., \texttt{<mark>} or \texttt{<b>}).
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The search index contains a document with a specific body text (e.g., "The search engine at LTU provides fast results for students.").
+  \item The search service is configured to generate snippets with a predefined maximum length.
+  \item The highlighting logic is integrated into the search result transformation layer.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item \textbf{Search Execution:} Execute a search query for the term "students".
+  \item \textbf{Intercept Result:} Capture the search result object for the target document.
+  \item \textbf{Inspect Snippet:} Examine the \texttt{Snippet} field of the returned result.
+  \item \textbf{Verify Highlighting:} Search for the presence of highlighting tags around the keyword "students" within the snippet string.
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item \textbf{Contextual Snippet:} The result contains a non-empty snippet string derived from the document's body content.
+  \item \textbf{Highlighting Tags:} The keyword is wrapped in the expected tag.
+  \item \textbf{Expected Value:} \texttt{... fast results for students.}
+  \item \textbf{Sanitization:} The rest of the snippet is correctly encoded to prevent XSS, while the highlighting tags are preserved.
+\end{itemize}
 % ==========================================================
 
 
