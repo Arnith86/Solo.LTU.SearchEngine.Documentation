@@ -906,6 +906,45 @@ Verify that the search engine correctly supports the required (+) operator, ensu
   \item The optional term ``dog'' may influence ranking (e.g., Document A may appear before Document B), but result ordering is \textbf{not} required to pass this test.
 \end{itemize}
 
+
+% ==========================================================
+% ==========================================================
+
+\section{Test Case: TC-FRQ-3008}
+\subsection*{Related Requirements}
+FRQ-3008
+
+\subsection*{Description}
+Verify that the search engine correctly implements exclusion logic using both the keyword \textbf{NOT}
+(case-sensitive) and the symbols \textbf{!} or \textbf{-}. The test also ensures that the system 
+enforces the constraint that an exclusion operator must be preceded by a positive term, preventing 
+standalone exclusion queries from returning results.
+
+\subsection*{Preconditions}
+\begin{itemize}
+  \item The search system is operational and the index is populated with documents containing various combinations of terms (e.g., some with "cat", some with "dog", and some with both).
+  \item The query parser is configured to recognize \texttt{NOT}, \texttt{!}, and \texttt{-} as exclusion operators.
+\end{itemize}
+
+\subsection*{Test Steps}
+\begin{enumerate}
+  \item \textbf{Keyword Exclusion:} Execute a query using the \texttt{NOT} operator (e.g., \texttt{"cat NOT dog"}).
+  \item \textbf{Symbol Exclusion:} Execute queries using the symbols (e.g., \texttt{"cat -dog"} and \texttt{"cat !dog"}).
+  \item \textbf{Standalone Constraint:} Execute a standalone exclusion query (e.g., \texttt{"-dog"} or \texttt{"NOT dog"}).
+  \item \textbf{Case Sensitivity:} Execute a query with a lowercase exclusion (e.g., \texttt{"cat not dog"}).
+\end{enumerate}
+
+\subsection*{Expected Results}
+\begin{itemize}
+  \item \textbf{Logical Filtering:} The queries \texttt{"cat NOT dog"}, \texttt{"cat -dog"}, and \texttt{"cat !dog"} all return documents containing "cat" but strictly exclude any documents that also contain "dog".
+  \item \textbf{Constraint Enforcement:} Standalone exclusion queries (e.g., \texttt{"-dog"}) return either an explicit error message or zero results, satisfying the requirement for a preceding positive term.
+  \item \textbf{Case Sensitivity:} The lowercase \texttt{"not"} is treated as a literal search term and does not perform an exclusion.
+  \item \textbf{Consistency:} All three supported exclusion syntaxes (\texttt{NOT}, \texttt{!}, \texttt{-}) yield identical result sets when used with the same terms.
+\end{itemize}
+
+% ==========================================================
+% ==========================================================
+
 \section{Test Case: TC-FRQ-3009}
 
 \subsection*{Related Requirements}
