@@ -724,23 +724,24 @@ FRQ-3002
 
 \subsection*{Description}
 Verify that the search engine correctly handles and retrieves results for a query consisting of a single, standalone word.
+Specifically testing term which stem to same character sequence. 
 
 \subsection*{Preconditions}
 \begin{itemize}
   \item The search system is running and the index is populated.
   \item[] \textit{Example setup:}
   \begin{itemize}
-      \item Document A contains the word "test".
-      \item Document B contains the word "hello".
-      \item Document C contains the normalized version of "testing" ("test"). 
+      \item Document A contains the word "test" assigned the language "sv".
+      \item Document B contains the word "hello" assigned the language "en".
+      \item Document C contains the word "test" assigned the language "en" 
   \end{itemize}
 \end{itemize}
 
 \subsection*{Test Steps}
 \begin{enumerate}
-        \item Enter the single term \texttt{hello} into the search input.
+        \item Enter the single term \texttt{hello} language \texttt{en} into the search input.
         \item Execute the search.
-        \item Clear results and enter the term \texttt{test}.
+        \item Clear results and enter the term \texttt{test} language \texttt{en}.
         \item Execute the search.
     \end{enumerate}
 
@@ -748,7 +749,7 @@ Verify that the search engine correctly handles and retrieves results for a quer
 \subsection*{Expected Results}
 \begin{itemize}
         \item For the query \texttt{hello}: Only Document B is returned.
-        \item For the query \texttt{test}: both Document A and C are returned.
+        \item For the query \texttt{test}: Both Document A and C are returned.
 \end{itemize}
 
 % ==========================================================
