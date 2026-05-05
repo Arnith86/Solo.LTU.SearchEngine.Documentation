@@ -695,9 +695,9 @@ Verify that the search engine accepts and correctly processes search queries com
   \begin{itemize}
     \item[] \textit{Example setup:}
     \begin{itemize}
-        \item Document A contains only "cats".
-        \item Document B contains only "dogs".
-        \item Document C contains both "cats" and "dogs".
+        \item Document A contains only "cat".
+        \item Document B contains only "dog".
+        \item Document C contains both "cat" and "dog".
     \end{itemize}
   \end{itemize}
 \end{itemize}
@@ -732,7 +732,7 @@ Verify that the search engine correctly handles and retrieves results for a quer
   \begin{itemize}
       \item Document A contains the word "test".
       \item Document B contains the word "hello".
-      \item Document C contains "testing" (to verify exact match if applicable, or just distinct words).
+      \item Document C contains the normalized version of "testing" ("test"). 
   \end{itemize}
 \end{itemize}
 
@@ -748,9 +748,8 @@ Verify that the search engine correctly handles and retrieves results for a quer
 \subsection*{Expected Results}
 \begin{itemize}
         \item For the query \texttt{hello}: Only Document B is returned.
-        \item For the query \texttt{test}: Only Document A is returned.
-       \item \textbf{Note:} Document C ("testing") should \textbf{not} be returned for the query "test", verifying that the search handles exact word boundaries correctly.
-    \end{itemize}
+        \item For the query \texttt{test}: both Document A and C are returned.
+\end{itemize}
 
 % ==========================================================
 \section{Test Case: TC-FRQ-3003}
