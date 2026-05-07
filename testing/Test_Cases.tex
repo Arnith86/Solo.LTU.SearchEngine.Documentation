@@ -884,22 +884,22 @@ Verify that the search engine correctly supports the required (+) operator, ensu
   \item The search input is empty before the test begins.
   \item[] \textit{Test Data Setup:}
   \begin{itemize}
-      \item Document A contains the exact phrase ``are cats'' and the word ``dog''.
-      \item Document B contains the exact phrase ``are cats'' but does \textbf{not} contain the word ``dog''.
-      \item Document C contains the word ``dog'' but does \textbf{not} contain the exact phrase ``are cats''.
-      \item Document D contains neither the phrase ``are cats'' nor the word ``dog''.
+      \item Document A contains the exact phrase ``fat cat'' and the word ``dog''.
+      \item Document B contains the exact phrase ``fat cat'' but does \textbf{not} contain the word ``dog''.
+      \item Document C contains the word ``dog'' but does \textbf{not} contain the exact phrase ``fat cat''.
+      \item Document D contains neither the phrase ``fat cat'' nor the word ``dog'', but contains the term ``cat''.
   \end{itemize}
 \end{itemize}
 
 \subsection*{Test Steps}
 \begin{enumerate}
- \item Enter the query \texttt{+"are cats" dog} into the search input.
+ \item Enter the query \texttt{+"fat cats" OR dog} into the search input.
   \item Execute the search.
 \end{enumerate}
 
 \subsection*{Expected Results}
 \begin{itemize}
-  \item Only documents containing the exact phrase ``are cats'' are returned.
+  \item Only documents containing the exact phrase ``fat cat'' are returned.
   \item Documents A and B are returned, as both contain the required phrase.
   \item Document C is \textbf{not} returned, as it does not contain the required phrase.
   \item Document D is \textbf{not} returned, as it contains none of the query terms.
